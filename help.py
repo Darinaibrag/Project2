@@ -17,6 +17,9 @@
 # p = Post.objects.filter(title='vue').delete()
 # c = Category.objects.filter(posts__title='backend')
 
+# stud = Student.objects.get(id = 2)
+# c.students.add(stud)
+
 import json
 
 json_data = '{"category": "python", "title": "django", "body": "framework"}'
