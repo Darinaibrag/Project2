@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include, path
-from post.views import posts_list
+from post.views import posts_list, posts_list_api_view, post_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('product_list/', posts_list)
+    path('product_list/', posts_list),
+    path('api/listing/', posts_list_api_view),
+    path('api/details/<int:id>/', post_detail)
 ]
+# localhost:8000/api/details/1/

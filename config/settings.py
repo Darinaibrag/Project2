@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework', #obyazatelno add if install djangorestframework
     'post',
-    'project2'
+    'project2',
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,7 @@ class Category(models.Model):
         return self.title
 
 class Post(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name='posts', related_query_name='posts')
     title = models.CharField(max_length=100)
     body = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,7 +34,7 @@ class Post(models.Model):
 # DurationField - for time periods
 # EmailField for email (has build-in checking, yavlyaetsya deistvitel'nym adres of email)
 # FileField - for zagruzki files (upload_to - for ukazanii direktorii, where budut hranit'sya faily, v database budet hranitsya lish put' do faila)
-# ImageFiel - dlya zagruzki foto (toje samoe, chto i FileField, no trebuetsya biblioteka Pillow)
+# ImageField - dlya zagruzki foto (toje samoe, chto i FileField, no trebuetsya biblioteka Pillow)
 # JSONField - for strings in JSON format
 
 # null = if True, budet stavit in BD object null, if data ne peredany
@@ -92,7 +92,17 @@ class Post(models.Model):
 #     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
 
     # on_delete=models.CASCADE - (если удаляется главный объект, то удаляются все зависимые)
-    # on_delete=models.PROTECT - recalls mistake pri attep of deleting of main object
+    # on_delete=models.PROTECT - recalls mistake pri attemp of deleting of main object
     # on_delete=models.SET_NULL - (does not delete dependent objects, a replace with null if null=True)
     # models.SET_DEFAULT - stavit default if was determined as default
     # models.DO_NOTHING - voobshe nichego ne delaet (mojet vozniknut' oshibka)
+
+
+
+# related_name - used for opredelenniya of name obratnoi svyazi with another model.
+# Ustanavlivaet imya, po kotoromu mojno obrashtsya to svyzannym objects.
+# Usually used in the field ForeignKey.
+
+# related_query_name - this option is used for opredeleniya imya obratnoi svyazi, used in requests.
+# Ona opred, kak svyazannye objects can be zaprosheny s pomosheyu method fileter() exclude()
+
