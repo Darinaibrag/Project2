@@ -13,6 +13,8 @@ def posts_list(request):
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializers import PostSerializer
+from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET'])
@@ -27,14 +29,58 @@ def post_detail(request, id):
     # serializer = PostSerializer(post)
     # print(serializer.data)
     # return Response(serializer.data)
-    try:
-        post = Post.objects.get(id=id)
-        serializer = PostSerializer(post)
-        return Response(serializer.data)
-    except Post.DoesNotExist:
-        return Response('This object does not exist')
+
+    # try:
+    #     post = Post.objects.get(id=id)
+    #     serializer = PostSerializer(post)
+    #     return Response(serializer.data)
+    # except Post.DoesNotExist:
+    #     return Response('This object does not exist')
+
+    # post = Post.objects.get(id=id)
+    post = get_object_or_404(Post, id=id)
+    serializer = PostSerializer(post)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def create_post(request):
+    print(request.data, 'REQUEST DATA')
+    serializer = PostSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=201)
+
+@api_view(['DELETE'])
+def delete(request, id):
+    post = get_object_or_404(Post, id=id)
+    post.delete()
+    return Response(status=204)
+
+# @api_view(['PUT'])
+# def update_post(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     serializer = PostSerializer(post, data=request.data)
+#     serializer.is_valid(raise_exception=True)
+#     serializer.save()
+#     return Response(serializer.data, status=201)
+#
+# @api_view(['PATCH'])
+# def update_post(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     serializer = PostSerializer(post, data=request.data, partial=True)
+#     serializer.is_valid(raise_exception=True)
+#     serializer.save()
+#     return Response(serializer.data, status=201)
 
 
+@api_view(['PUT', 'PATCH'])
+def update_post(request, id):
+    post = get_object_or_404(Post, id=id)
+    partial = True if request.method == 'PATCH' else False
+    serializer = PostSerializer(post, request.data, partial=partial)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=201)
 
 
 

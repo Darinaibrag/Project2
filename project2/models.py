@@ -1,14 +1,14 @@
 from django.db import models
 
 
-# Получение общего количества объектов модели
-total_count = MyModel.objects.count()
-
-# Получение суммы значения поля 'field_name' для всех объектов
-total_sum = MyModel.objects.aggregate(Sum('field_name'))
-
-# Получение среднего значения поля 'field_name' для всех объектов
-average_value = MyModel.objects.aggregate(Avg('field_name'))
+# # Получение общего количества объектов модели
+# total_count = MyModel.objects.count()
+#
+# # Получение суммы значения поля 'field_name' для всех объектов
+# total_sum = MyModel.objects.aggregate(Sum('field_name'))
+#
+# # Получение среднего значения поля 'field_name' для всех объектов
+# average_value = MyModel.objects.aggregate(Avg('field_name'))
 
 
 # Create your models here.
@@ -26,7 +26,7 @@ class Syllabus(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    students = models.ManyToManyField(Student)
+    students = models.ManyToManyField(Student, related_name='cs', related_query_name='cs')
     syllabus = models.OneToOneField(Syllabus, on_delete=models.CASCADE, blank=True, null=True, related_name='course', related_query_name='course')
 
     def __str__(self):
@@ -55,3 +55,4 @@ class Course(models.Model):
 # average_value = MyModel.objects.aggregate(Avg('field_name'))
 
 # stud = Student.objects.get(id=3).delete()
+
