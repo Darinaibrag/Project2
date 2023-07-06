@@ -22,24 +22,23 @@ class Post(models.Model):
 
 
 
+# CharField - для строковых значений (требуется указать max_length)
+# TextField - для хранения текста
+# DecimalField - для дробных/вещественных чисел (max_digits - количество цифр в целой части, decimal_places - количество цифр в дробной части)
+# IntegerField - для чисел
+# BooleanField - для логических значений
+# DateField - для дат (в формате datetime.date в Python), auto_now - обновляется при обновлении записи, auto_now_add - устанавливается только при создании записи
+# TimeField - для времени (может использоваться с auto_now и auto_now_add)
+# DateTimeField - для даты и времени (может использоваться с auto_now и auto_now_add)
+# DurationField - для временных периодов
+# EmailField - для электронных адресов (проверка на валидность встроена)
+# FileField - для загрузки файлов (upload_to - для указания директории, где будут храниться файлы, в базе данных хранится только путь к файлу)
+# ImageField - для загрузки изображений (то же самое, что и FileField, но требуется библиотека Pillow)
+# JSONField - для строк в формате JSON
 
-# CharField - for string values (required to write max_length)
-# TextField - for storage of text
-# DecimalField - for drobnyh/float numbers (max_digits quantity of numbers of celoi chasti, decimal places - quantity of numbers drobnoi chasti)
-# IntengerField - for numbers
-# BooleanField - for bool values
-# DateField - for dates (in puython datetime.date) auto_now - obnovlyaetsya each time pri obnovllenii of record auto_now_add
-# TimeField - for the time (takje can prinipat' auto_now and auto_now_add)
-# DateTimeField - for dates and time (takje can prinipat' auto_now and auto_now_add)
-# DurationField - for time periods
-# EmailField for email (has build-in checking, yavlyaetsya deistvitel'nym adres of email)
-# FileField - for zagruzki files (upload_to - for ukazanii direktorii, where budut hranit'sya faily, v database budet hranitsya lish put' do faila)
-# ImageField - dlya zagruzki foto (toje samoe, chto i FileField, no trebuetsya biblioteka Pillow)
-# JSONField - for strings in JSON format
-
-# null = if True, budet stavit in BD object null, if data ne peredany
-# blank (bolshe idet dlya string fields) if True, budet stavit' pustuyu string if data ne peredany)
-# choises - lets constraint variants in this field for this nujno peredat spisok s kortejami, gde pervyi element hranitsya v BD, vtoroi , chto budet otobrajat'sya
+# null - если True, то объект в базе данных может быть null, если данные не переданы
+# blank (в основном для строковых полей) - если True, то поле может быть пустым, если данные не переданы
+# choices - позволяет ограничить доступные варианты для поля (требуется передать список кортежей, где первый элемент сохраняется в базе данных, а второй элемент отображается)
 
 # class MyModel(models.Model):
 #     COLOR_CHOICES = (
@@ -81,7 +80,6 @@ class Post(models.Model):
 #
 #
 #
-#
 # class Category(models.Model):
 #     title = models.CharField(max_length=100)
 #
@@ -91,18 +89,15 @@ class Post(models.Model):
 # class Post(models.Model):
 #     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
 
-    # on_delete=models.CASCADE - (если удаляется главный объект, то удаляются все зависимые)
-    # on_delete=models.PROTECT - recalls mistake pri attemp of deleting of main object
-    # on_delete=models.SET_NULL - (does not delete dependent objects, a replace with null if null=True)
-    # models.SET_DEFAULT - stavit default if was determined as default
-    # models.DO_NOTHING - voobshe nichego ne delaet (mojet vozniknut' oshibka)
+# on_delete=models.CASCADE - если удаляется главный объект, то удаляются все зависимые
+# on_delete=models.PROTECT - предотвращает ошибку при попытке удаления основного объекта
+# on_delete=models.SET_NULL - не удаляет зависимые объекты, а заменяет на null, если null=True
+# on_delete=models.SET_DEFAULT - устанавливает значение по умолчанию, если было определено как default
+# on_delete=models.DO_NOTHING - вообще ничего не делает (может возникнуть ошибка)
 
+# related_name - используется для определения имени обратной связи с другой моделью.
+# Устанавливает имя, по которому можно обращаться к связанным объектам.
+# Обычно используется в поле ForeignKey.
 
-
-# related_name - used for opredelenniya of name obratnoi svyazi with another model.
-# Ustanavlivaet imya, po kotoromu mojno obrashtsya to svyzannym objects.
-# Usually used in the field ForeignKey.
-
-# related_query_name - this option is used for opredeleniya imya obratnoi svyazi, used in requests.
-# Ona opred, kak svyazannye objects can be zaprosheny s pomosheyu method fileter() exclude()
-
+# related_query_name - этот параметр используется для определения имени обратной связи, используемого в запросах.
+# Он определяет, как связанные объекты могут быть запрошены с помощью метода filter() или exclude()

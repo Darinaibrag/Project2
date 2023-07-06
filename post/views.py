@@ -84,9 +84,6 @@ def update_post(request, id):
 
 
 
-
-
-
 # QuerySet - lets us read data from database
 # filter and change order
 
