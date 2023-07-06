@@ -26,6 +26,9 @@ class Student(models.Model):
 class Syllabus(models.Model):
     syllabus = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.syllabus}'
+
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -33,7 +36,7 @@ class Course(models.Model):
     syllabus = models.OneToOneField(Syllabus, on_delete=models.CASCADE, blank=True, null=True, related_name='course', related_query_name='course')
 
     def __str__(self):
-        return self.name
+        return f'{self.name} > {self.syllabus}'
 
 
 # # Получение студентов старше 20 лет
