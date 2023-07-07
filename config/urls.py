@@ -17,18 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include, path
-from post.views import posts_list, posts_list_api_view, post_detail, create_post, delete, update_post
+from post.views import posts_list, posts_list_api_view, post_detail, create_post, delete, update_post, \
+    PostListAPIView, CategoryListAPIView, PostDetailsAPIViews, PostCreateAPIView, PostDeleteAPIView, PostUpdateAPIView
 from project2.views import student_detail, create_student
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product_list/', posts_list),
-    path('api/listing/', posts_list_api_view),
-    path('api/details/<int:id>/', post_detail),
-    path('api/create/', create_post),
-    path('api/delete/<int:id>/', delete),
-    path('api/update/<int:id>/', update_post),
-    path('api/detail/<int:id>/', student_detail),
-    path('api/create_student/', create_student)
+    # path('api/listing/', posts_list_api_view),
+    # path('api/details/<int:id>/', post_detail),
+    # path('api/create/', create_post),
+    # path('api/delete/<int:id>/', delete),
+    # path('api/update/<int:id>/', update_post),
+    # path('api/detail/<int:id>/', student_detail),
+    # path('api/create_student/', create_student)
+    #APIView urls
+    path('api/listing/', PostListAPIView.as_view()),
+    path('api/listing-category/', CategoryListAPIView.as_view()),
+    path('api/detail/<int:id>/', PostDetailsAPIViews.as_view()),
+    path('api/create/', PostCreateAPIView.as_view()),
+    path('api/delete/<int:id>/', PostDeleteAPIView.as_view()),
+    path('api/update/<int:id>/', PostUpdateAPIView.as_view())
 ]
 # localhost:8000/api/details/1/

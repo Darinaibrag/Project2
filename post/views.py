@@ -82,8 +82,6 @@ def update_post(request, id):
     serializer.save()
     return Response(serializer.data, status=201)
 
-
-
 # QuerySet - lets us read data from database
 # filter and change order
 
@@ -112,3 +110,55 @@ def update_post(request, id):
 # Post.objects.order_by('-price')
 
 # Post.objects.all()[:5]
+
+
+# APIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import Category, CategorySerializer
+
+class CategoryListAPIView(APIView):
+    def get(self, request):
+        queryset = Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class PostListAPIView(APIView):
+    def get(self, request):
+        queryset = Post.objects.all()
+        serializer = PostSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class PostDetailsAPIViews(APIView):
+    def get(self, request, id):
+        post = get_object_or_404(Post, id=id)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
+class PostCreateAPIView(APIView):
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class PostDeleteAPIView(APIView):
+    def delete(self, request, id):
+        post = get_object_or_404(Post, id=id)
+        post.delete()
+        return  Response(status=204)
+
+class PostUpdateAPIView(APIView):
+    def put(self, request, id):
+        post = get_object_or_404(Post, id=id)
+        serializer = PostSerializer(post, request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+    def patch(self, request, id):
+        post = get_object_or_404(Post, id=id)
+        serializer = PostSerializer(post, request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)

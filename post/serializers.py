@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Post
+
 class PostSerializer(serializers.Serializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     title = serializers.CharField(max_length=100)
@@ -18,3 +19,9 @@ class PostSerializer(serializers.Serializer):
         return instance
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+        # fields = ['fields', '']()
+        # exclude = ['field']
